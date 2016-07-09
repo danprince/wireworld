@@ -31,29 +31,6 @@
   [ctx [x y] tool]
   (render-cell! ctx x y tool))
 
-(defn render-note!
-  [ctx x y text]
-  (let [sx (* x px)
-        sy (* y px)
-        len (* (count text) 9)]
-    (set! (.-fillStyle ctx) "#fff")
-    (.fillText
-      ctx
-      text
-      (+ sx (/ px 4))
-      (+ sy (/ px 2)))))
-
-(defn render-notes!
-  [ctx notes]
-  (set! (.-font ctx) "bold 10pt monospace")
-  (set! (.-textBaseline ctx) "middle")
-  (doall (for [note notes]
-    (render-note!
-      ctx
-      (:x note)
-      (:y note)
-      (:text note)))))
-
 (defn render-line!
   [ctx x1 y1 x2 y2]
   (.beginPath ctx)

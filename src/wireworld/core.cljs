@@ -3,7 +3,6 @@
             [goog.events :as events]
             [wireworld.settings :as settings]
             [wireworld.actions :as actions]
-            [wireworld.notes :as notes]
             [wireworld.grid :as grid]
             [wireworld.controls :as controls]
             [wireworld.render :as render]))
@@ -32,11 +31,10 @@
     {:grid (grid/make-grid width height)
      :width width
      :height height
-     :cursor [0 0]
+     :cursor [-1 -1]
      :mousedown false
      :paused true
-     :tool :wire
-     :notes notes/intro}))
+     :tool :wire}))
 
 ;; add controls toolbars to the dom
 (reagent/render-component
@@ -78,7 +76,6 @@
     76 (swap! app-state actions/move-cursor [1 0])
     :no-else))
 
-
 (defn handle-mousemove
   [event]
   (let [x (scale-coord (.-clientX event))
@@ -88,11 +85,8 @@
     (when (:mousedown @app-state)
       (swap! app-state actions/paint))))
 
-(defn render! []
-  (render/render! ctx @app-state))
-
 (defn interaction-loop! []
-  (render!)
+  (render/render! ctx @app-state)
   (js/setTimeout interaction-loop! 50))
 
 (defn update-loop! []
@@ -128,7 +122,6 @@
       canvas
       "mousemove"
       handle-mousemove)))
-
 
 (defn on-js-reload [])
 
