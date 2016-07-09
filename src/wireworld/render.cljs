@@ -1,11 +1,11 @@
 (ns wireworld.render
-  (:require [wireworld.settings :as settings]))
+  (:require [wireworld.settings :refer [colors size]]))
 
-(def px settings/size)
+(def px size)
 
 (defn render-cell!
   [ctx x y cell]
-    (set! (.-fillStyle ctx) (get settings/colors cell))
+    (set! (.-fillStyle ctx) (get colors cell))
     (.fillRect ctx (* x px) (* y px) px px))
 
 (defn clear-grid!
@@ -15,17 +15,15 @@
     (.clearRect ctx 0 0 width height)))
 
 (defn render-grid!
-  [ctx grid]
-  (doall
-    (map-indexed
-      (fn [x column]
-        (doall
-          (map-indexed
-            (fn [y cell]
-              (when (not= cell :empty)
-                (render-cell! ctx x y cell)))
-            column)))
-      grid)))
+  [ctx state]
+  (let [grid (:grid state)
+        xs (range (:width state))
+        ys (range (:height state))]
+    (doseq [x xs]
+      (doseq [y ys]
+        (let [cell (get-in grid [x y])]
+          (when (not= cell :empty)
+            (render-cell! ctx x y cell)))))))
 
 (defn render-cursor!
   [ctx [x y] tool]
@@ -42,16 +40,15 @@
   [ctx width height]
   (set! (.-strokeStyle ctx) "#444")
   (set! (.-lineWidth ctx) .2)
-  (doall (for [x (range width)]
-    (render-line! ctx (* x px) 0 (* x px) (* height px))))
-  (doall (for [y (range height)]
-    (render-line! ctx 0 (* y px) (* width px) (* y px)))))
+  (doseq [x (range width)]
+    (render-line! ctx (* x px) 0 (* x px) (* height px)))
+  (doseq [y (range height)]
+    (render-line! ctx 0 (* y px) (* width px) (* y px))))
 
 (defn render!
   [ctx state]
   (clear-grid! ctx (:grid state))
   (render-gridlines! ctx (:width state) (:height state))
-  (render-grid! ctx (:grid state))
-  (render-cursor! ctx (:cursor state) (:tool state))
-  (render-notes! ctx (:notes state)))
+  (render-grid! ctx state)
+  (render-cursor! ctx (:cursor state) (:tool state)))
 
