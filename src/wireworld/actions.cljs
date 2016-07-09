@@ -1,4 +1,5 @@
-(ns wireworld.actions)
+(ns wireworld.actions
+  (:require [wireworld.grid :as grid]))
 
 (defn play
   [state]
@@ -37,4 +38,8 @@
     state
     :grid
     grid))
+
+(defn tick
+  [state]
+  (update state :grid grid/update-grid))
 

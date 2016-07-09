@@ -3,6 +3,7 @@
             [goog.events :as events]
             [wireworld.settings :as settings]
             [wireworld.actions :as actions]
+            [wireworld.notes :as notes]
             [wireworld.grid :as grid]
             [wireworld.controls :as controls]
             [wireworld.render :as render]))
@@ -33,7 +34,9 @@
      :height height
      :cursor [0 0]
      :mousedown false
-     :tool :wire}))
+     :paused true
+     :tool :wire
+     :notes notes/intro}))
 
 ;; add controls toolbars to the dom
 (reagent/render-component
@@ -94,10 +97,7 @@
 
 (defn update-loop! []
   (when-not (:paused @app-state)
-    (swap!
-      app-state
-      (fn [state]
-        (update state :grid grid/update-grid))))
+    (swap! app-state actions/tick))
   (js/setTimeout update-loop! 200))
 
 (defonce events
@@ -128,6 +128,7 @@
       canvas
       "mousemove"
       handle-mousemove)))
+
 
 (defn on-js-reload [])
 

@@ -4,15 +4,19 @@
 
 (def play-icon "\u25BA")
 (def pause-icon "\u23F8")
+(def step-icon "\u2794")
 
 (defn play-pause
   [state]
   [:div
    (if (:paused @state)
-     [:span.icon
-      {:on-click #(swap! state act/play)}
-      play-icon]
-
+     [:span
+       [:span.icon
+        {:on-click #(swap! state act/play)}
+        play-icon]
+       [:span.icon
+        {:on-click #(swap! state act/tick)}
+        step-icon]]
      [:span.icon
       {:on-click #(swap! state act/pause)}
       pause-icon])])
