@@ -33,16 +33,36 @@
     (cons :grid (:cursor state))
     (:tool state)))
 
-(defn delete
-  [state]
-  state)
-
 (defn swap-grid
   [state grid]
   (assoc
     state
     :grid
     grid))
+
+(defn clear-selection
+  [state]
+  (let [select-from (:select-from state)
+        cursor (:cursor state)
+        [[x1 y1] [x2 y2]] (select/make-selection select-from cursor)
+        width (- x2 x1)
+        height (- y2 y1)
+        grid (:grid state)
+        cells (grid/make-grid width height :empty)]
+    (assoc state :grid (select/patch-cells grid cells x1 y1))))
+
+(defn clear-grid
+  [state]
+  (let [width (:width state)
+        height (:height state)
+        cells (grid/make-grid width height :empty)]
+    (swap-grid state cells)))
+
+(defn delete
+  [state]
+  (if (:selector-enabled? state)
+    (clear-selection state)
+    (clear-grid state)))
 
 (defn tick
   [state]
