@@ -1,10 +1,5 @@
-(ns wireworld.grid)
-
-(defn repeatv
-  "utility for repeating v n times into an
-   an associative structure"
-  [n v]
-  (into [] (repeat n v)))
+(ns wireworld.grid
+  (:require [wireworld.util :refer [repeatv]]))
 
 (defn make-grid
   "create a width x height grid of :empty cells"
