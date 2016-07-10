@@ -1,4 +1,6 @@
-[Wireworld][5] is a [Turing-complete][6] [Cellular Automaton][7] that can be used to simulate circuits and logic gates. Try this simulator [here][8].
+# WireWorld
+
+[WireWorld][5] is a [Turing-complete][6] [Cellular Automaton][7] that can be used to simulate circuits and logic gates. You can try out the simulator [here][8].
 
 [![](resources/public/img/banner.gif)][8]
 
