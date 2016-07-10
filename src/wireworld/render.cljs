@@ -1,5 +1,6 @@
 (ns wireworld.render
-  (:require [wireworld.settings :refer [colors size]]))
+  (:require [wireworld.settings :refer [colors size]]
+            [wireworld.select :as select]))
 
 (def px size)
 
@@ -13,21 +14,6 @@
   (let [width (.-width (.-canvas ctx))
         height (.-height (.-canvas ctx))]
     (.clearRect ctx 0 0 width height)))
-
-(defn render-grid!
-  [ctx state]
-  (let [grid (:grid state)
-        xs (range (:width state))
-        ys (range (:height state))]
-    (doseq [x xs]
-      (doseq [y ys]
-        (let [cell (get-in grid [x y])]
-          (when (not= cell :empty)
-            (render-cell! ctx x y cell)))))))
-
-(defn render-cursor!
-  [ctx [x y] tool]
-  (render-cell! ctx x y tool))
 
 (defn render-line!
   [ctx x1 y1 x2 y2]
@@ -45,10 +31,34 @@
   (doseq [y (range height)]
     (render-line! ctx 0 (* y px) (* width px) (* y px))))
 
+(defn render-grid!
+  [ctx state]
+  (let [grid (:grid state)
+        xs (range (:width state))
+        ys (range (:height state))]
+    (doseq [x xs]
+      (doseq [y ys]
+        (let [cell (get-in grid [x y])]
+          (when (not= cell :empty)
+            (render-cell! ctx x y cell)))))))
+
+(defn render-selection!
+  [ctx start end]
+  (let [[xs ys] (select/make-selection start end)]
+    (doseq [x xs
+            y ys]
+        (render-cell! ctx x y :selection))))
+
+(defn render-cursor!
+  [ctx [x y] tool]
+  (render-cell! ctx x y tool))
+
 (defn render!
   [ctx state]
   (clear-grid! ctx (:grid state))
   (render-gridlines! ctx (:width state) (:height state))
   (render-grid! ctx state)
-  (render-cursor! ctx (:cursor state) (:tool state)))
+  (if (:selector-enabled? state)
+    (render-selection! ctx (:select-from state) (:cursor state))
+    (render-cursor! ctx (:cursor state) (:tool state))))
 

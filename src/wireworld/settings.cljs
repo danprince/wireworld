@@ -7,5 +7,5 @@
    :wire "#efb949"
    :head "#ef4949"
    :tail "#49d0ef"
-   :cursor "rgba(255, 255, 255, 0.2)"})
+   :selection "rgba(255, 255, 255, 0.3)"})
 

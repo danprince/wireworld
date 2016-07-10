@@ -4,6 +4,7 @@
             [wireworld.settings :as settings]
             [wireworld.actions :as actions]
             [wireworld.grid :as grid]
+            [wireworld.encode :as encode]
             [wireworld.controls :as controls]
             [wireworld.render :as render]))
 
@@ -47,9 +48,11 @@
     ;; play/pause
     13 (swap! app-state actions/toggle-pause)
     ;; clear grid
-    27 (swap! app-state actions/swap-grid empty-grid)
+    88 (swap! app-state actions/swap-grid empty-grid)
     ;; draw with tool
     32 (swap! app-state actions/paint)
+    ;; toggle menu
+    27 (swap! app-state actions/toggle-menu)
     ;; changing tool
     49 (swap! app-state actions/select-tool :empty)
     50 (swap! app-state actions/select-tool :wire)
@@ -65,16 +68,33 @@
     74 (swap! app-state actions/move-cursor [0 1])
     75 (swap! app-state actions/move-cursor [0 -1])
     76 (swap! app-state actions/move-cursor [1 0])
+    ;; step by one
+    78 (swap! app-state actions/tick)
+    89 (swap! app-state actions/selection->clipboard)
+    80 (swap! app-state actions/clipboard->grid)
     :no-else))
+
+(defn handle-keydown
+  [event]
+  (case (.-keyCode event)
+    17 (swap! app-state actions/enable-selector)
+    nil))
+
+(defn handle-keyup
+  [event]
+  (case (.-keyCode event)
+    17 (swap! app-state actions/disable-selector)
+    nil))
 
 (defn handle-mousemove
   [event]
   (let [x (scale-coord (.-clientX event))
-        y (scale-coord (.-clientY event))]
+        y (scale-coord (.-clientY event))
+        state @app-state]
     ;; constantly move cursor to mouse coords
     (swap! app-state actions/teleport-cursor [x y])
     ;; if mouse is currently down, paint here
-    (when (:mousedown @app-state)
+    (when (and (:mousedown state) (not (:selector-enabled? state)))
       (swap! app-state actions/paint))))
 
 (defn handle-mousedown
@@ -87,7 +107,8 @@
 
 (defn handle-click
   [event]
-  (swap! app-state actions/paint))
+  (when-not (:selector-enabled? @app-state)
+    (swap! app-state actions/paint)))
 
 (defn reset-cursor!
   [event]
@@ -109,6 +130,8 @@
     (update-loop!)
     (interaction-loop!)
     (listen js/window "keydown" handle-key)
+    (listen js/window "keydown" handle-keydown)
+    (listen js/window "keyup"   handle-keyup)
     (listen canvas "mousedown"  handle-mousedown)
     (listen canvas "mouseup"    handle-mouseup)
     (listen canvas "mousedown"  handle-click)
@@ -116,6 +139,7 @@
     (listen canvas "mousemove"  handle-mousemove)
     (listen canvas "touchmove"  handle-mousemove)
     (listen canvas "touchstart" handle-mousedown)
+    ;; reset cursor after touch to prevent it hanging around onscreen
     (listen canvas "touchend"   (juxt handle-mouseup reset-cursor!))))
 
 ;; render controls into the dom
@@ -124,4 +148,5 @@
   (.getElementById js/document "app"))
 
 (defn on-js-reload [])
+
 
