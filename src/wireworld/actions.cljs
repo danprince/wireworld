@@ -33,6 +33,10 @@
     (cons :grid (:cursor state))
     (:tool state)))
 
+(defn delete
+  [state]
+  state)
+
 (defn swap-grid
   [state grid]
   (assoc
@@ -44,13 +48,13 @@
   [state]
   (update state :grid grid/update-grid))
 
-(defn enable-selector
+(defn start-selection
   [state]
   (-> state
     (assoc :selector-enabled? true)
     (assoc :select-from (:cursor state))))
 
-(defn disable-selector
+(defn end-selection
   [state]
   (assoc state :selector-enabled? false))
 
