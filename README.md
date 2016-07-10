@@ -1,8 +1,9 @@
-![](resources/public/img/banner.gif)
+[![](resources/public/img/banner.gif)][8]
 
-[Wireworld][5] is a [Turing-complete][6] [Cellular Automaton][7] that can be used to simulate circuits and logic gates. 
+[Wireworld][5] is a [Turing-complete][6] [Cellular Automaton][7] that can be used to simulate circuits and logic gates. Try this simulator [here][8]. [Here's a guide][9] that walks through the process of building a wireworld computer that calculates primes, complete with logic gates, flip-flops, adders, read only memory and registers.
 
-Wireworlds are made up of four types of cell.
+## Rules
+A wireworld is made up of four types of cell.
 
 * ![][1] Empty
 * ![][2] Wire
@@ -48,4 +49,4 @@ Distributed under the Eclipse Public License version 1.0.
 [6]: https://en.wikipedia.org/wiki/Turing_completeness 
 [7]: https://en.wikipedia.org/wiki/Cellular_automaton
 [8]: https://danprince.github.io/wireworld
-
+[9]: http://www.quinapalus.com/wi-index.html
