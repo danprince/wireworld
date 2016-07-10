@@ -2,17 +2,19 @@
 
 A wireworld is made up of four types of cell.
 
-* Empty ![][1]
-* Wire ![][2]
-* Electron Head ![][3]
-* Electron Tail ![][4]
+* ![][1] Empty
+* ![][2] Wire
+* ![][2] Electron Head
+* ![][2] Electron Tail
 
 ## Rules
-* A ![][1] always stays ![][1]
-* A ![][3] always becomes a ![][4]
-* A ![][4] always becomes a ![2]
-* If a ![][2] has 1 or 2 ![][3] neighbours, it becomes a ![][3]
-* Otherwise it stays as a ![][2]
+After each tick:
+
+* ![][1] always stays ![][1]
+* ![][3] always becomes ![][4]
+* ![][4] always becomes ![2]
+* If ![][2] has 1 or 2 ![][3] neighbours, it becomes ![][3]
+  * Otherwise it stays as ![][2]
 
 ## Keys
 | Action | Keys |
@@ -32,10 +34,10 @@ A wireworld is made up of four types of cell.
 ## Tools
 | Action | Keys |
 | ------ | ---- |
-| Paint with `empty` | `1` |
-| Paint with `wire` | `2` |
-| Paint with `head` | `3` |
-| Paint with `tail` | `4` |
+| Paint with ![][1] | `1` |
+| Paint with ![][2] | `2` |
+| Paint with ![][3] | `3` |
+| Paint with ![][4] | `4` |
 
 ## Selection
 | Action | Keys |
