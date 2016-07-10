@@ -104,8 +104,7 @@
 
 (defn handle-click
   [event]
-  (when-not (:selector-enabled? @app-state)
-    (swap! app-state actions/paint)))
+  (swap! app-state actions/paint))
 
 (defn reset-mouse!
   [event]
