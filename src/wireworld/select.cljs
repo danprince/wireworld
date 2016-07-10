@@ -1,6 +1,9 @@
 (ns wireworld.select)
 
 (defn make-selection
+  "turns a start and end coord into a vector
+   which contains a vector of all x coords
+   and a vector of all y coords"
   [[sx sy] [dx dy]]
   (let [x1 (min sx dx)
         x2 (+ 1 (max sx dx))
@@ -11,12 +14,16 @@
     [xs ys]))
 
 (defn extract-selection
+  "given a vector of x coords and a range of
+   y coords returns a 2d list of the cells
+   at these positions within this grid"
   [[xs ys] grid]
   (for [x xs]
     (for [y ys]
       (get-in grid [x y]))))
 
 (defn patch-cells
+  "pastes cells into grid at tx ty"
   [grid cells tx ty]
   (let [width (count cells)
         height (count (first cells))]

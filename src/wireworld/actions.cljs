@@ -26,10 +26,6 @@
   [state coords]
   (assoc state :cursor coords))
 
-(defn toggle-menu
-  [state]
-  (update state :showing-menu? not))
-
 (defn paint
   [state]
   (assoc-in

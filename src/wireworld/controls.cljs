@@ -27,6 +27,10 @@
 (defn player
   [state]
   [:div
+   [:a.icon
+    {:title "What is Wireworld?"
+     :href "https://github.com/danprince/wireworld"}
+    info-icon]
    (if (:paused @state)
      [:span
        [:span.icon
@@ -57,25 +61,9 @@
    [tool state :head 3]
    [tool state :tail 4]])
 
-(defn dialog
-  [child]
-  [:div.overlay
-    [:div.dialog child]])
-
-(defn menu
-  [state]
-  [dialog
-   [:div
-    [:h2 "Wireworld"]
-    [:p
-     "Cellular automata for modelling electrons"]
-    ]])
-
 (defn toolbar
   [app-state]
   [:div.toolbar
-   (when (:showing-menu? @app-state)
-     [menu app-state])
    [:div.fixed.top.left
     [player app-state]]
    [:div.fixed.top.right

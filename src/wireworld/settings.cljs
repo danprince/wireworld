@@ -5,7 +5,7 @@
 (def colors
   {:empty "#333333"
    :wire "#efb949"
-   :head "#ef4949"
-   :tail "#49d0ef"
+   :tail "#ef4949"
+   :head "#49d0ef"
    :selection "rgba(255, 255, 255, 0.3)"})
 

@@ -51,8 +51,6 @@
     88 (swap! app-state actions/swap-grid empty-grid)
     ;; draw with tool
     32 (swap! app-state actions/paint)
-    ;; toggle menu
-    27 (swap! app-state actions/toggle-menu)
     ;; changing tool
     49 (swap! app-state actions/select-tool :empty)
     50 (swap! app-state actions/select-tool :wire)
@@ -148,5 +146,4 @@
   (.getElementById js/document "app"))
 
 (defn on-js-reload [])
-
 
