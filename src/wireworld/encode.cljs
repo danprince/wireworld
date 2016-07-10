@@ -1,8 +1,13 @@
 (ns wireworld.encode
   (:require [clojure.string :refer [join split trim]]))
 
-(def chunk-size 4)
+(def chunk-size 3)
 (def cell-size 2)
+
+(def encodings
+  [\a \b \c \d \e \f \g \h \i \j \k \l \m
+   \n \o \p \q \r \s \t \u \v \w \x \y \z
+   \0 \1 \2 \3 \4 \6])
 
 (defn encode-cell
   [cell]
@@ -31,12 +36,6 @@
   [cells]
   (reduce shift-encode 0 cells))
 
-(defn ->blob
-  [typed-array]
-  (new js/Blob
-       typed-array
-       (clj->js {:type "application/octet-stream"})))
-
 (defn encode-grid
   "gonna need some serious docs"
   [grid]
@@ -44,7 +43,9 @@
         nums (map encode-cell flat)
         chunks (partition chunk-size nums)]
     (->> chunks
-         (map encode-chunk))))
+         (map encode-chunk)
+         (map #(get encodings %))
+         (join ""))))
 
 (defn decode-shift
   [bits]
@@ -61,8 +62,6 @@
 
 (defn decode-grid
   [data]
-  (when (< 1 (count (trim data)))
-    [[]])
   (let [[w b64] (split data "|")
         width (js/parseInt w)
         chrs (split (js/atob b64) "")
@@ -72,4 +71,12 @@
          (map decode-cell)
          (partition width)
          (mapv vec))))
+
+(defn build-hash
+  [width data]
+  (str "w=" width "&data=" data))
+
+(defn parse-hash
+  [string]
+  )
 

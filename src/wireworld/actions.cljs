@@ -2,6 +2,7 @@
   "Collection of functions that describe state updates, designed to
    be used with swap!"
   (:require [wireworld.grid :as grid]
+            [wireworld.encode :as encode]
             [wireworld.select :as select]))
 
 (defn play
@@ -115,4 +116,14 @@
     (if cells
       (assoc state :grid (select/patch-cells grid cells x y))
       state)))
+
+(defn encode-to-url
+  [state]
+  (set!
+    (.-hash (.-location js/window))
+    (encode/build-hash
+      (:width state)
+      (encode/encode-grid (:grid state))))
+  state)
+
 

@@ -32,6 +32,8 @@
     78 (actions/tick state)
     89 (actions/selection->clipboard state)
     80 (actions/clipboard->grid state)
+    ;; encode and update url
+    ;;83 (actions/encode-to-url state)
     state))
 
 (defn handle-keydown

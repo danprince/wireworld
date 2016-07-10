@@ -5,11 +5,14 @@
             [wireworld.actions :as actions]
             [wireworld.events :as events]
             [wireworld.grid :as grid]
-            [wireworld.encode :as encode]
             [wireworld.controls :as controls]
             [wireworld.render :as render]))
 
 (enable-console-print!)
+
+;; DOM Events -> wireworld.events -> wireworld.actions
+;;                                          v
+;;  wireworld.render <- update-loop!  <- app-state
 
 ;; use the window size to calculate grid size
 (def window-width  (.-innerWidth js/window))
