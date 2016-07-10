@@ -45,6 +45,7 @@ Distributed under the Eclipse Public License version 1.0.
 [3]: resources/public/img/head.png
 [4]: resources/public/img/tail.png
 [5]: https://en.wikipedia.org/wiki/Wireworld
+[6]: https://en.wikipedia.org/wiki/Turing_completeness 
 [7]: https://en.wikipedia.org/wiki/Cellular_automaton
 [8]: https://danprince.github.io/wireworld
 
