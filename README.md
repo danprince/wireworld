@@ -4,8 +4,8 @@ A wireworld is made up of four types of cell.
 
 * ![][1] Empty
 * ![][2] Wire
-* ![][2] Electron Head
-* ![][2] Electron Tail
+* ![][3] Electron Head
+* ![][4] Electron Tail
 
 ## Rules
 After each tick:
@@ -17,34 +17,24 @@ After each tick:
   * Otherwise it stays as ![][2]
 
 ## Keys
-| Action | Keys |
-| ------ | ---- |
-| Toggle play/pause | `enter` |
-| Paint at cursor | `space` |
-| Clear grid | `x` |
+| Toggle play/pause | Paint at cursor | Clear grid |
+| ----------------- | --------------- | ---------- |
+| `enter`           | `space`         | `x`        |
 
 ## Cursor
-| Action | Keys |
-| ------ | ---- |
-| Move cursor left | `←` or `h` |
-| Move cursor down | `↓` or `j` |
-| Move cursor up | `↑` or `k` |
-| Move cursor right | `→` or `l` |
+| Move left | Move down | Move up | Move right |
+| --------- | --------- | ------- | ---------- |
+| `←` or `h` |  `↓` or `j` |  `↑` or `k` |  `→` or `l` |
 
 ## Tools
-| Action | Keys |
-| ------ | ---- |
-| Paint with ![][1] | `1` |
-| Paint with ![][2] | `2` |
-| Paint with ![][3] | `3` |
-| Paint with ![][4] | `4` |
+| Paint with ![][1] | Paint with ![][2] | Paint with ![][3] | Paint with ![][4] |
+| ----------------- | ----------------- | ----------------- | ----------------- |
+| `1`               | `2`               | `3`               | `4`               |
 
 ## Selection
-| Action | Keys |
-| ------ | ---- |
-| Selection mode | `ctrl` |
-| Copy selection | `y` |
-| Paste selection | `p` |
+| Selection mode | Copy selection | Paste selection |
+| -------------- | -------------- | --------------- |
+| `ctrl`         | `y`            | `p`             |
 
 ## License
 Distributed under the Eclipse Public License version 1.0.
