@@ -34,7 +34,6 @@
      :width width
      :height height
      :cursor [-1 -1]
-     :mousedown false
      :paused true
      :tool :wire}))
 
@@ -47,8 +46,8 @@
   (case (.-keyCode event)
     ;; play/pause
     13 (swap! app-state actions/toggle-pause)
-    ;; clear grid
-    88 (swap! app-state actions/swap-grid empty-grid)
+    ;; delete from grid or selection
+    88 (swap! app-state actions/delete)
     ;; draw with tool
     32 (swap! app-state actions/paint)
     ;; changing tool
@@ -75,13 +74,13 @@
 (defn handle-keydown
   [event]
   (case (.-keyCode event)
-    17 (swap! app-state actions/enable-selector)
+    17 (swap! app-state actions/start-selection)
     nil))
 
 (defn handle-keyup
   [event]
   (case (.-keyCode event)
-    17 (swap! app-state actions/disable-selector)
+    17 (swap! app-state actions/end-selection)
     nil))
 
 (defn handle-mousemove
@@ -105,8 +104,12 @@
 
 (defn handle-click
   [event]
-  (when-not (:selector-enabled? @app-state)
-    (swap! app-state actions/paint)))
+  (swap! app-state actions/paint))
+
+(defn reset-mouse!
+  [event]
+  (swap! app-state merge {:mousedown false
+                          :selector-enabled? false}))
 
 (defn reset-cursor!
   [event]
@@ -137,6 +140,8 @@
     (listen canvas "mousemove"  handle-mousemove)
     (listen canvas "touchmove"  handle-mousemove)
     (listen canvas "touchstart" handle-mousedown)
+    ;; reset mouse if it leaves the canvas
+    (listen canvas "mouseout" reset-mouse!)
     ;; reset cursor after touch to prevent it hanging around onscreen
     (listen canvas "touchend"   (juxt handle-mouseup reset-cursor!))))
 

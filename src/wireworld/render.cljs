@@ -44,7 +44,9 @@
 
 (defn render-selection!
   [ctx start end]
-  (let [[xs ys] (select/make-selection start end)]
+  (let [[[x1 y1] [x2 y2]] (select/make-selection start end)
+        xs (range x1 x2)
+        ys (range y1 y2)]
     (doseq [x xs
             y ys]
         (render-cell! ctx x y :selection))))

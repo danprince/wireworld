@@ -8,8 +8,10 @@
 
 (defn make-grid
   "create a width x height grid of :empty cells"
-  [width height]
-  (repeatv width (repeatv height :empty)))
+  ([width height cell]
+   (repeatv width (repeatv height cell)))
+  ([width height]
+   (make-grid width height :empty)))
 
 (defn get-neighbours
   "returns the vector of neighbours around grid[x][y]"

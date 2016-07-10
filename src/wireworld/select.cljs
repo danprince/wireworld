@@ -8,19 +8,19 @@
   (let [x1 (min sx dx)
         x2 (+ 1 (max sx dx))
         y1 (min sy dy)
-        y2 (+ 1 (max sy dy))
-        xs (range x1 x2)
-        ys (range y1 y2)]
-    [xs ys]))
+        y2 (+ 1 (max sy dy))]
+    [[x1 y1] [x2 y2]]))
 
 (defn extract-selection
   "given a vector of x coords and a range of
    y coords returns a 2d list of the cells
    at these positions within this grid"
-  [[xs ys] grid]
-  (for [x xs]
-    (for [y ys]
-      (get-in grid [x y]))))
+  [[[x1 y1] [x2 y2]] grid]
+  (let [xs (range x1 x2)
+        ys (range y1 y2)]
+    (for [x xs]
+      (for [y ys]
+        (get-in grid [x y])))))
 
 (defn patch-cells
   "pastes cells into grid at tx ty"

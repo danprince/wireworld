@@ -26,12 +26,30 @@
   [state coords]
   (assoc state :cursor coords))
 
-(defn paint
+(defn paint-selection
+  [state]
+  (let [select-from (:select-from state)
+        cursor (:cursor state)
+        cell (:tool state)
+        [[x1 y1] [x2 y2]] (select/make-selection select-from cursor)
+        width (- x2 x1)
+        height (- y2 y1)
+        grid (:grid state)
+        cells (grid/make-grid width height cell)]
+    (assoc state :grid (select/patch-cells grid cells x1 y1))))
+
+(defn paint-cursor
   [state]
   (assoc-in
     state
     (cons :grid (:cursor state))
     (:tool state)))
+
+(defn paint
+  [state]
+  (if (:selector-enabled? state)
+    (paint-selection state)
+    (paint-cursor state)))
 
 (defn swap-grid
   [state grid]
@@ -68,13 +86,13 @@
   [state]
   (update state :grid grid/update-grid))
 
-(defn enable-selector
+(defn start-selection
   [state]
   (-> state
     (assoc :selector-enabled? true)
     (assoc :select-from (:cursor state))))
 
-(defn disable-selector
+(defn end-selection
   [state]
   (assoc state :selector-enabled? false))
 
