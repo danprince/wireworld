@@ -1,4 +1,6 @@
 (ns wireworld.events
+  "Collection of functions which describe event-based updates
+   to state, designed to be used with swap!"
   (:require [wireworld.actions :as actions]
             [wireworld.util :refer [scale-coord]]))
 
@@ -53,8 +55,9 @@
 
 (defn handle-drag
   [state event]
-  (let [mousedown? (:mousedown state)
-        selecting? (:selector-enabled? state)]
+  (let [mousedown? (:mousedown? state)
+        selecting? (:selecting? state)]
     (if (and mousedown? (not selecting?))
       (actions/paint state)
       state)))
+

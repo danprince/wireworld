@@ -35,20 +35,16 @@
   [typed-array]
   (new js/Blob
        typed-array
-       (clj->js {:type "application/pdf"})))
+       (clj->js {:type "application/octet-stream"})))
 
 (defn encode-grid
   "gonna need some serious docs"
   [grid]
-  (let [width (count grid)
-        flat (flatten grid)
+  (let [flat (flatten grid)
         nums (map encode-cell flat)
         chunks (partition chunk-size nums)]
     (->> chunks
-         (map encode-chunk)
-         (.from js/Uint8ClampedArray)
-         ->blob
-         (.createObjectURL js/URL))))
+         (map encode-chunk))))
 
 (defn decode-shift
   [bits]

@@ -1,4 +1,5 @@
 (ns wireworld.controls
+  "Collection of re-agent/hiccup components"
   (:require [wireworld.actions :as act]
             [wireworld.settings :as s]
             [wireworld.encode :as encode]))

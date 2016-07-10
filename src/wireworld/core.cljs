@@ -60,10 +60,10 @@
   (swap! app-state actions/paint))
 
 (defn handle-mousedown [event]
-  (swap! app-state assoc :mousedown true))
+  (swap! app-state assoc :mousedown? true))
 
 (defn handle-mouseup [event]
-  (swap! app-state assoc :mousedown false))
+  (swap! app-state assoc :mousedown? false))
 
 (defn handle-mousemove [event]
   (swap!
@@ -76,29 +76,29 @@
 (defn reset-mouse!
   "reset the mouse down and selecting states"
   [event]
-  (swap! app-state merge {:mousedown false
-                          :selector-enabled? false}))
+  (swap! app-state merge {:mousedown? false
+                          :selecting? false}))
 
 (defn reset-cursor!
   "move the cursor off of the screen"
   [event]
   (swap! app-state actions/teleport-cursor [-1 -1]))
 
-;; define event handlers once to make sure they
-;; aren't duplicated each time figwheel reloads
+;; uses defonce to make sure event handlers
+;; aren't redefined each time figwheel reloads
 (defonce events
   (do
     (update-loop!)
     (ui-loop!)
     (listen js/window "keydown" handle-keys)
     (listen js/window "keydown" handle-keydown)
-    (listen js/window "keyup"   handle-keyup)
-    (listen canvas "mousedown"  handle-mousedown)
-    (listen canvas "mouseup"    handle-mouseup)
-    (listen canvas "mousedown"  handle-click)
+    (listen js/window "keyup" handle-keyup)
+    (listen canvas "mousedown" handle-mousedown)
+    (listen canvas "mouseup" handle-mouseup)
+    (listen canvas "mousedown" handle-click)
     (listen canvas "mouseenter" handle-mousemove)
-    (listen canvas "mousemove"  handle-mousemove)
-    (listen canvas "touchmove"  handle-mousemove)
+    (listen canvas "mousemove" handle-mousemove)
+    (listen canvas "touchmove" handle-mousemove)
     (listen canvas "touchstart" handle-mousedown)
     ;; reset mouse if it leaves the canvas
     (listen canvas "mouseout" reset-mouse!)

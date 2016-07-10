@@ -1,4 +1,6 @@
 (ns wireworld.actions
+  "Collection of functions that describe state updates, designed to
+   be used with swap!"
   (:require [wireworld.grid :as grid]
             [wireworld.select :as select]))
 
@@ -47,7 +49,7 @@
 
 (defn paint
   [state]
-  (if (:selector-enabled? state)
+  (if (:selecting? state)
     (paint-selection state)
     (paint-cursor state)))
 
@@ -78,7 +80,7 @@
 
 (defn delete
   [state]
-  (if (:selector-enabled? state)
+  (if (:selecting? state)
     (clear-selection state)
     (clear-grid state)))
 
@@ -89,12 +91,12 @@
 (defn start-selection
   [state]
   (-> state
-    (assoc :selector-enabled? true)
+    (assoc :selecting? true)
     (assoc :select-from (:cursor state))))
 
 (defn end-selection
   [state]
-  (assoc state :selector-enabled? false))
+  (assoc state :selecting? false))
 
 (defn selection->clipboard
   [state]

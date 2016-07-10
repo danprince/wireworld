@@ -60,7 +60,7 @@
   (clear-grid! ctx (:grid state))
   (render-gridlines! ctx (:width state) (:height state))
   (render-grid! ctx state)
-  (if (:selector-enabled? state)
+  (if (:selecting? state)
     (render-selection! ctx (:select-from state) (:cursor state))
     (render-cursor! ctx (:cursor state) (:tool state))))
 
